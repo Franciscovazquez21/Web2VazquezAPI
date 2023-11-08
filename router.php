@@ -2,27 +2,24 @@
 
 require_once './libs/router.php';
 require_once './app/controllers/list.api.controller.php';
+require_once './app/controllers/category.api.controller.php';
 
 
 
 $router= new Router();
 
-
-// define la tabla de ruteo
-$router->addRoute('list','GET','ListApiController','getList');
-$router->addRoute('list', 'POST', 'ListApiController', 'insertItem');
-$router->addRoute('list/:Id', 'PUT', 'ListApiController', 'updateItem');
-$router->addRoute('list/:Id', 'GET', 'ListApiController', 'getList');
-$router->addRoute('list/:Id', 'DELETE', 'ListApiController', 'deleteItem');
-$router->addRoute('category', 'GET', 'ListApiController', 'getCategoryList');
-$router->addRoute('category/:Id', 'POST', 'ListApiController', 'insertCategory');
-$router->addRoute('category/:Id', 'PUT', 'ListApiController', 'updateCategory');
-$router->addRoute('category/:Id', 'GET', 'ListApiController', 'getCategoryList');
-$router->addRoute('category/:Id', 'DELETE', 'ListApiController', 'deleteCategory');
+$router->addRoute('list',         'GET',    'ListApiController',     'getList'        );
+$router->addRoute('list',         'POST',   'ListApiController',     'insertItem'     );
+$router->addRoute('list/:Id',     'PUT',    'ListApiController',     'updateItem'     );
+$router->addRoute('list/:Id',     'GET',    'ListApiController',     'getList'        );
+$router->addRoute('list/:Id',     'DELETE', 'ListApiController',     'deleteItem'     );
+$router->addRoute('category',     'GET',    'CategoryApiController', 'getCategoryList');
+$router->addRoute('category',     'POST',   'CategoryApiController', 'insertCategory' );
+$router->addRoute('category/:Id', 'PUT',    'CategoryApiController', 'updateCategory' );
+$router->addRoute('category/:Id', 'GET',    'CategoryApiController', 'getCategoryList');
+$router->addRoute('category/:Id', 'DELETE', 'CategoryApiController', 'deleteCategory' );
 
 
-
-// rutea
 $router->route($_GET["resource"], $_SERVER['REQUEST_METHOD']);
 
 

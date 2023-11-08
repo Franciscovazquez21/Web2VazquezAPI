@@ -5,8 +5,9 @@ require_once './app/models/model.php';
 class ListModel extends Model{
 
     //consulta todos los productos
-    public function getList(){ 
-        $query = $this->db->prepare('SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria;');
+    public function getList($adicional){ 
+        
+        $query = $this->db->prepare("SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria $adicional;");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
@@ -22,7 +23,7 @@ class ListModel extends Model{
     public function getItemsCategoryById($id){
         $query = $this->db->prepare('SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria WHERE repuestos.idCategoria=?');
         $query->execute([$id]);
-        return $query->fetchAll(PDO::FETCH_OBJ);
+        return $query->fetch(PDO::FETCH_OBJ);
         
     }
 

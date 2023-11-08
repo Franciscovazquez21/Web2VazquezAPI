@@ -1,4 +1,5 @@
 <?php
+require_once './config.php';
 abstract class Model
 {
 
@@ -6,7 +7,7 @@ abstract class Model
 
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=localhost;dbname=repuestos;charset=utf8', 'root', '');
+        $this->db = new PDO('mysql:host='.MYSQL_HOST.';dbname=repuestos;charset=utf8', 'root', '');
         $this->_deploy();
     }
 
