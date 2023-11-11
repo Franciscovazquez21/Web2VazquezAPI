@@ -63,5 +63,13 @@ class Helper{
         }
         return false;
     }
+
+    public function isLimit(){
+        return false;
+    }
+
+    public function isOfset(){
+        return false;
+    }
     
 }

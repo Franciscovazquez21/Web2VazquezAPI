@@ -26,25 +26,24 @@ class ItemApiController extends ApiController
         $operation=$this->helper->isOperation($_GET);
         $sort=$this->helper->isSort($_GET,$columns);
         $order=$this->helper->isOrder($_GET);
-
-        //$limit=$this->helper->isLimit($_GET['limit']);
-        //$ofset=$this->helper->isOfset($_GET['ofset']);
+        $limit=$this->helper->isLimit($_GET);
+        $ofset=$this->helper->isOfset($_GET);
 
         $options= [
             'filter'=>$filter?$_GET['filter']:null,
             'value'=>$value?$_GET['value']:null,
             'operation'=>$operation?$_GET['operation']:null,
             'sort'=>$sort?$_GET['sort']:null,
-            'order'=>$order?$_GET['order']:null
-            //'limit'=>$limit?$limit:null,
-            //'ofset'=>$ofset?$ofset:null
+            'order'=>$order?$_GET['order']:null,
+            'limit'=>$limit?$_GET['limit']:null,
+            'ofset'=>$ofset?$_GET['ofset']:null
         ];
 
         $list = $this->model->getItemList($options);
         if($list){
         $this->view->response($list, 200);
         }else
-            $this->view->response('Error Not Found', 404);
+            $this->view->response('Bad Request', 404);
     
     }
 

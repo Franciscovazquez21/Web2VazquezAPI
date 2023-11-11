@@ -13,8 +13,10 @@ class ItemModel extends Model{
         }
         if($options['value']!=null){
             if($options['operation']!=null)
-            $query.=$options['operation'].$options['value'];   
-            else $query.="=".$options['value'];//igual por defecto
+            $query .= $options['operation'] . '"' . $options['value'] . '"';
+        else{   
+            $query.="=". '"' . $options['value'] . '"';
+        }
         }
         if($options['sort']!=null){
             $query.=" ORDER BY ".$options['sort'];
@@ -23,15 +25,6 @@ class ItemModel extends Model{
             $query.= " ".$options['order'];
         }
 
-
-
-
-
-
-        
-        
-        
-        
         return $query;
     }
     
