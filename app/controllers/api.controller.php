@@ -1,18 +1,22 @@
-<?php 
-    require_once './app/views/api.view.php';
-    
+<?php
+require_once './app/views/api.view.php';
+require_once './helper.php';
 
-    abstract class ApiController{
-        
-        protected $view;
-        private $data;
 
-        public function __construct() {
+abstract class ApiController{
+
+    protected $view;
+    protected $helper;//por ahora obsoleto
+    private $data;
+
+
+    public function __construct(){
         $this->view = new ApiView();
-        $this->data = file_get_contents("php://input"); 
+        $this->helper = new Helper();
+        $this->data = file_get_contents("php://input");
     }
 
-    function getData(){ 
-        return json_decode($this->data); 
-    } 
+    function getData(){
+        return json_decode($this->data);
     }
+}

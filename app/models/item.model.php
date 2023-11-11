@@ -2,18 +2,56 @@
 require_once './app/models/model.php';
 
 //modelo de productos
-class ListModel extends Model{
+class ItemModel extends Model{
 
-    //consulta todos los productos
-    public function getList($adicional){ 
+    
+    public function buildQuery($options){
+        $query="SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria";
         
-        $query = $this->db->prepare("SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria $adicional;");
+        if($options['filter']!=null){
+            $query.=" WHERE ".$options['filter']; 
+        }
+        if($options['value']!=null){
+            if($options['operation']!=null)
+            $query.=$options['operation'].$options['value'];   
+            else $query.="=".$options['value'];//igual por defecto
+        }
+        if($options['sort']!=null){
+            $query.=" ORDER BY ".$options['sort'];
+        }
+        if($options['sort']!=null&&$options['order']!=null){
+            $query.= " ".$options['order'];
+        }
+
+
+
+
+
+
+        
+        
+        
+        
+        return $query;
+    }
+    
+
+    public function getColumns(){
+        $query = $this->db->prepare('DESCRIBE repuestos');
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+    //consulta todos los productos
+    public function getItemList($options){ 
+        $result=$this->buildQuery($options);
+        $query = $this->db->prepare("$result");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+
     //consulta producto segun id
-    public function getListById($id){ //consulta por el item segun parametro incluida la categoria
+    public function getItemById($id){ //consulta por el item segun parametro incluida la categoria
         $query = $this->db->prepare('SELECT * FROM `repuestos` JOIN categoria ON repuestos.idCategoria=categoria.idCategoria WHERE idProducto = ?');
         $query->execute([$id]);
         return $query->fetch(PDO::FETCH_OBJ);//se acomodo el fetch, estaba trayendo todo con fetchAll
@@ -42,7 +80,7 @@ class ListModel extends Model{
     }
 
     //modifica producto
-    public function updateItem($idProducto, $idCodigoProducto, $nombreProducto, $precio, $marca, $imagenProducto, $idCategoria){
+    public function    updateItem($idProducto, $idCodigoProducto, $nombreProducto, $precio, $marca, $imagenProducto, $idCategoria){
         $query = $this->db->prepare('UPDATE repuestos SET idCodigoProducto=?,nombreProducto=?,precio=?,marca=?,imagenProducto=?,idCategoria=? WHERE idProducto=?');
         $query->execute([$idCodigoProducto, $nombreProducto, $precio, $marca, $imagenProducto, $idCategoria, $idProducto]);
         return $query->rowCount();

@@ -13,12 +13,14 @@ class CategoryApiController extends ApiController{
         $this->model = new CategoryModel();
     }
 
+    //consulta lista de categorias/categoriaId/recibe queryParams/filtro por campo.
     public function getCategoryList($params = []){
-        
+
         if (empty($params)) {
             $categories = $this->model->getCategory();
             $this->view->response($categories, 200);
-        } else if(isset($params[':Id'])&&is_numeric($params[':Id'])){
+
+        } else if (isset($params[':Id']) && is_numeric($params[':Id'])) {
             $id = $params[":Id"];
             $category = $this->model->getCategoryId($id);
 
@@ -27,17 +29,18 @@ class CategoryApiController extends ApiController{
             } else {
                 $this->view->response('no existe categoria', 404);
             }
-        }else{
-            $this->view->response('error not found',404);
+        } else {
+            $this->view->response('Error Not Found', 404);
         }
     }
 
-    public function deleteCategory($params=[]){
+    public function deleteCategory($params = [])
+    {
 
-        
 
-        if (!empty($params)&&is_numeric($params[':Id'])) {
-            $id= $params[':Id'];
+
+        if (!empty($params) && is_numeric($params[':Id'])) {
+            $id = $params[':Id'];
             try {
                 $category = $this->model->deleteCategory($id);
                 if ($category) {
@@ -48,18 +51,21 @@ class CategoryApiController extends ApiController{
             } catch (PDOException $e) {
                 $this->view->response("no se puede eliminar categoria, tiene items asociados,$e", 400);
             }
-        }else{
-            $this->view->response("Error not Found", 404);
+        } else {
+            $this->view->response("Error Not Found", 404);
             return;
         }
     }
 
-    public function insertCategory(){
+    public function insertCategory()
+    {
 
         $category = $this->getData();
 
-        if (empty($category->categoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
-            || empty($category->imagenCategoria)) {
+        if (
+            empty($category->categoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
+            || empty($category->imagenCategoria)
+        ) {
             $this->view->response('faltan completar campos', 404);
             return;
         }
@@ -71,7 +77,7 @@ class CategoryApiController extends ApiController{
         $imagenCategoria = $category->imagenCategoria;
 
         $id = $this->model->insertCategory($categoria, $material, $origen, $motor, $imagenCategoria);
-        $newCategory=$this->model->getCategoryId($id);
+        $newCategory = $this->model->getCategoryId($id);
         if ($newCategory) {
             $this->view->response($newCategory, 200);
         } else {
@@ -80,45 +86,45 @@ class CategoryApiController extends ApiController{
     }
 
 
-    public function updateCategory($params = []){
+    public function updateCategory($params = [])
+    {
 
-        if (!empty($params) && is_numeric($params[':Id'])){
-        $id = $params[':Id'];
+        if (!empty($params) && is_numeric($params[':Id'])) {
+            $id = $params[':Id'];
 
-        $categoryId = $this->model->getCategoryId($id);
+            $categoryId = $this->model->getCategoryId($id);
 
-        if ($categoryId) {
+            if ($categoryId) {
 
-            $category = $this->getData();
+                $category = $this->getData();
 
-            if (
-                empty($category->idCategoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
-                || empty($category->imagenCategoria)){
-                $this->view->response('faltan completar campos', 404);
-                return;
-            }
-
-            $idCategoria = $category->idCategoria;
-            $material = $category->material;
-            $origen = $category->origen;
-            $motor = $category->motor;
-            $imagenCategoria = $category->imagenCategoria;
-
-            try {
-                $categoriaModificada = $this->model->updateCategory($idCategoria, $material, $origen, $motor, $imagenCategoria);
-                if ($categoriaModificada) {
-                    $this->view->response('categoria modificada', 200);
-                } else {
-                    $this->view->response("No se pudo actualizar categoria", 404);
+                if (
+                    empty($category->idCategoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
+                    || empty($category->imagenCategoria)
+                ) {
+                    $this->view->response('faltan completar campos', 404);
+                    return;
                 }
-            } catch (PDOException $error) {
-                $this->view->response("Error en la consulta a la base de datos/$error", 404);
+
+                $idCategoria = $category->idCategoria;
+                $material = $category->material;
+                $origen = $category->origen;
+                $motor = $category->motor;
+                $imagenCategoria = $category->imagenCategoria;
+
+                try {
+                    $categoriaModificada = $this->model->updateCategory($idCategoria, $material, $origen, $motor, $imagenCategoria);
+                    if ($categoriaModificada) {
+                        $this->view->response('categoria modificada', 200);
+                    } else {
+                        $this->view->response("No se pudo actualizar categoria", 404);
+                    }
+                } catch (PDOException $error) {
+                    $this->view->response("Error en la consulta a la base de datos/$error", 404);
+                }
             }
-        }
-     } else {
+        } else {
             $this->view->response('id invalido', 404);
         }
     }
-
-    
 }
