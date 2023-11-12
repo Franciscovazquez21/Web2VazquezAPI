@@ -1,52 +1,50 @@
 <?php
 require_once './config.php';
-abstract class Model
-{
 
-    protected $db;
-    
+abstract class Model{
+  
+  protected $db;
 
-    public function __construct()
-    {
-        $this->db = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DB.';charset=utf8',MYSQL_USER,MYSQL_PASS);
-        $this->_deploy();
-    }
-
-    public function buildQuery($options){
-      $query="";
-      
-      if($options['filter']!=null){
-          $query.=" WHERE ".$options['filter']; 
-      }
-      if($options['value']!=null){
-          if($options['operation']!=null)
-          $query .= $options['operation'] . '"' . $options['value'] . '"';
-          else   
-          $query.="=". '"' . $options['value'] . '"';
-          
-      }
-      if($options['sort']!=null){
-          $query.=" ORDER BY ".$options['sort'];
-      }
-      if($options['sort']!=null&&$options['order']!=null){
-          $query.= " ".$options['order'];
-      }
-      if ($options['limit'] != null) {
-          $query .= " LIMIT " . $options['limit'];
-          
-          if ($options['offset']!= null) {
-              $query .= " OFFSET " . $options['offset'];
-          }
-      }
-
-      return $query;
+  public function __construct(){
+    $this->db = new PDO('mysql:host=' . MYSQL_HOST . ';dbname=' . MYSQL_DB . ';charset=utf8', MYSQL_USER, MYSQL_PASS);
+    $this->_deploy();
   }
 
-    private function _deploy(){
-        $query = $this->db->query('SHOW TABLES');
-        $tables = $query->fetchAll();
-        if (count($tables) == 0) {
-            $sql = <<<END
+  //funcion que conocen los modelos que hereden, construye segun objeto $options el final de la query con filtros y paginado. 
+  //hay valores que se concatenan si su predecesor se encuentra seteado tambien.
+  public function buildQuery($options){
+    $query = "";
+
+    if ($options['filter'] != null) {
+      $query .= " WHERE " . $options['filter'];
+    }
+    if ($options['value'] != null) {
+      if ($options['operation'] != null)
+        $query .= $options['operation'] . '"' . $options['value'] . '"';
+      else
+        $query .= "=" . '"' . $options['value'] . '"';
+    }
+    if ($options['sort'] != null) {
+      $query .= " ORDER BY " . $options['sort'];
+    }
+    if ($options['sort'] != null && $options['order'] != null) {
+      $query .= " " . $options['order'];
+    }
+    if ($options['limit'] != null) {
+      $query .= " LIMIT " . $options['limit'];
+
+      if ($options['offset'] != null) {//offset sin limit seteado previamente, no puede ser consultado en SQL 
+        $query .= " OFFSET " . $options['offset'];
+      }
+    }
+    return $query;
+  }
+
+  private function _deploy(){
+    $query = $this->db->query('SHOW TABLES');
+    $tables = $query->fetchAll();
+    if (count($tables) == 0) {
+      $sql = <<<END
             -- phpMyAdmin SQL Dump
             -- version 5.2.1
             -- https://www.phpmyadmin.net/
@@ -206,7 +204,7 @@ abstract class Model
             /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
             /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
             END;
-            $this->db->query($sql);
-        }
+      $this->db->query($sql);
     }
+  }
 }

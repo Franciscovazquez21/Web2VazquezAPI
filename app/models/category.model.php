@@ -3,6 +3,7 @@ require_once './app/models/model.php';
 //modelo de categorias
 class CategoryModel extends Model{
     
+    //devuelve las columnas correspondientes a la tabla categoria
     public function getColumns(){
         $query = $this->db->prepare('DESCRIBE categoria');
         $query->execute();

@@ -6,7 +6,7 @@ require_once './helper.php';
 abstract class ApiController{
 
     protected $view;
-    protected $helper;//por ahora obsoleto
+    protected $helper;//utilizado para validar seteos de query params
     private $data;
 
 

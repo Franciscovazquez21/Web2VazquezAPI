@@ -13,55 +13,56 @@ class CategoryApiController extends ApiController{
         $this->model = new CategoryModel();
     }
 
-    //consulta lista de categorias/categoriaId/recibe queryParams/filtro por campo.
+    //consulta lista de categorias/recibe queryParams verificados en helper.
     public function getCategoryList(){
-        $columns=$this->model->getColumns();
-        $filter=$this->helper->isFilter($_GET,$columns);//llama a verify...(true/false)'repuestos.*';//por defecto filtra todos los campos
-        $value=$this->helper->isValue($_GET);
-        $operation=$this->helper->isOperation($_GET);
-        $sort=$this->helper->isSort($_GET,$columns);
-        $order=$this->helper->isOrder($_GET);
-        $limit=$this->helper->isLimit($_GET);
-        $offset=$this->helper->isOffset($_GET);
 
-        $options= [
-            'filter'=>$filter?$_GET['filter']:null,
-            'value'=>$value?$_GET['value']:null,
-            'operation'=>$operation?$_GET['operation']:null,
-            'sort'=>$sort?$_GET['sort']:null,
-            'order'=>$order?$_GET['order']:null,
-            'limit'=>$limit?$_GET['limit']:null,
-            'offset'=>$offset?$_GET['offset']:null
+        $columns = $this->model->getColumns();
+        //verificaciones al helper
+        $filter = $this->helper->isFilter($_GET, $columns); //llama a verify...(true/false)'repuestos.*';//por defecto filtra todos los campos
+        $value = $this->helper->isValue($_GET);
+        $operation = $this->helper->isOperation($_GET);
+        $sort = $this->helper->isSort($_GET, $columns);
+        $order = $this->helper->isOrder($_GET);
+        $limit = $this->helper->isLimit($_GET);
+        $offset = $this->helper->isOffset($_GET);
+
+        $options = [//$options almacena las variables true y se envian a la consulta donde se arma la query segun seteos
+            'filter' => $filter ? $_GET['filter'] : null,
+            'value' => $value ? $_GET['value'] : null,
+            'operation' => $operation ? $_GET['operation'] : null,
+            'sort' => $sort ? $_GET['sort'] : null,
+            'order' => $order ? $_GET['order'] : null,
+            'limit' => $limit ? $_GET['limit'] : null,
+            'offset' => $offset ? $_GET['offset'] : null
         ];
-        try{
+        try {
             $categories = $this->model->getCategory($options);
-            if($categories){
-            $this->view->response($categories, 200);
-            }else
+            if ($categories) {
+                $this->view->response($categories, 200);
+            } else
                 $this->view->response('Bad Request', 400);
-        }catch(PDOException){
+        } catch (PDOException) {
             $this->view->response('Bad Request', 400);
         }
     }
-    public function getCategoryId($params=[]){
-        if (!isset($params[':Id']) && !is_numeric($params[':Id'])) {
+    
+    //consulta categorias por Id
+    public function getCategoryId($params = []){
+
+        if (!isset($params[':Id']) && !is_numeric($params[':Id'])) { //valido parametros y busco categoria valida en la consulta
             $this->view->response('Error Not Found', 404);
             return;
         }
-            $id = $params[":Id"];
-            $category = $this->model->getCategoryId($id);
-
-            if ($category) {
-                $this->view->response($category, 200);
-            } else {
-                $this->view->response('no existe categoria', 404);
-            }
+        $id = $params[":Id"];
+        $category = $this->model->getCategoryId($id);
+        if ($category) {
+            $this->view->response($category, 200);
+        } else {
+            $this->view->response('no existe categoria', 404);
+        }
     }
 
-    public function deleteCategory($params = [])
-    {
-
-
+    public function deleteCategory($params = []){
 
         if (!empty($params) && is_numeric($params[':Id'])) {
             $id = $params[':Id'];
@@ -81,19 +82,17 @@ class CategoryApiController extends ApiController{
         }
     }
 
-    public function insertCategory()
-    {
+    //agregar categoria
+    public function insertCategory(){
 
         $category = $this->getData();
 
-        if (
-            empty($category->categoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
-            || empty($category->imagenCategoria)
-        ) {
+        if (empty($category->categoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
+            || empty($category->imagenCategoria)) {
             $this->view->response('faltan completar campos', 404);
             return;
         }
-
+        //asignacion vaores recibidos
         $categoria = $category->categoria;
         $material = $category->material;
         $origen = $category->origen;
@@ -109,46 +108,41 @@ class CategoryApiController extends ApiController{
         }
     }
 
+    //modificar categoria
+    public function updateCategory($params = []){
 
-    public function updateCategory($params = [])
-    {
+        if (empty($params) && !is_numeric($params[':Id'])) {
+            $this->view->response('Error Not Found', 404);
+            return;
+        }
 
-        if (!empty($params) && is_numeric($params[':Id'])) {
-            $id = $params[':Id'];
-
-            $categoryId = $this->model->getCategoryId($id);
-
-            if ($categoryId) {
-
-                $category = $this->getData();
-
-                if (
-                    empty($category->idCategoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
-                    || empty($category->imagenCategoria)
-                ) {
-                    $this->view->response('faltan completar campos', 404);
-                    return;
-                }
-
-                $idCategoria = $category->idCategoria;
-                $material = $category->material;
-                $origen = $category->origen;
-                $motor = $category->motor;
-                $imagenCategoria = $category->imagenCategoria;
-
-                try {
-                    $categoriaModificada = $this->model->updateCategory($idCategoria, $material, $origen, $motor, $imagenCategoria);
-                    if ($categoriaModificada) {
-                        $this->view->response('categoria modificada', 200);
-                    } else {
-                        $this->view->response("No se pudo actualizar categoria", 404);
-                    }
-                } catch (PDOException $error) {
-                    $this->view->response("Error en la consulta a la base de datos/$error", 404);
-                }
+        $id = $params[':Id'];
+        $categoryId = $this->model->getCategoryId($id);
+        if ($categoryId) {
+            $category = $this->getData();
+            //control por datos incompletos
+            if (empty($category->idCategoria) || empty($category->material) || empty($category->origen) || empty($category->motor)
+                || empty($category->imagenCategoria)) {
+                $this->view->response('faltan completar campos', 404);
+                return;
             }
-        } else {
-            $this->view->response('id invalido', 404);
+            //asignacion valores recibidos
+            $idCategoria = $category->idCategoria;
+            $material = $category->material;
+            $origen = $category->origen;
+            $motor = $category->motor;
+            $imagenCategoria = $category->imagenCategoria;
+            //control de excepciones
+            try {
+                $categoriaModificada = $this->model->updateCategory($idCategoria, $material, $origen, $motor, $imagenCategoria);
+                if ($categoriaModificada) {
+                    $this->view->response('categoria modificada', 200);
+                } else {
+                    $this->view->response("No se pudo actualizar categoria", 404);
+                }
+            } catch (PDOException $error) {
+                $this->view->response("Error en la consulta a la base de datos/$error", 404);
+            }
         }
     }
 }

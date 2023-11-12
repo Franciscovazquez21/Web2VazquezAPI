@@ -1,6 +1,6 @@
 # Web2VazquezAPI
 
-Esta es la documentación de la API que proporciona información sobre los repuestos y categorías.
+Esta es la documentación de la API que proporciona información sobre las tablas Repuestos y Categoria.
 
 ## Rutas Disponibles
 
@@ -10,7 +10,7 @@ Esta es la documentación de la API que proporciona información sobre los repue
   - Método: `GET`
   - Ruta: `/item`
   - Descripción: Obtener una lista de repuestos con opciones de filtrado y paginación.
-  - Parámetros de consulta:
+  - Parámetros de consulta(*informacion adicional en el pie de la documentación*):
     - `filter`: Filtrar por columna
     - `value`: Valor para la operación de filtro
     - `operation`: Operación de filtro (opcional)
@@ -19,10 +19,34 @@ Esta es la documentación de la API que proporciona información sobre los repue
     - `limit`: Número de elementos por página
     - `offset`: Número de página
 
+    *Ejemplo:*
+  - Ruta: `/item/`  (devuelve el listado completo)
+  - Ruta: `/item/?filter=precio&value=55100`  (devuelve listado segun parametros)
+    {
+        "idProducto": 60,
+        "idCodigoProducto": 5681222,
+        "nombreProducto": "disco freno",
+        "precio": 55100,
+        "marca": "Fiat",
+        "imagenProducto": "img/frenos.jpg",
+        "IdCategoria": 5,
+        "categoria": "frenos"
+    }
+  
+  ## RESPONSE
+
+  -`400` : Bad request  (por uso incorrecto de parametros y consultas sin resultados exitosos);
+
+
 - **Obtener Repuesto por ID**
   - Método: `GET`
   - Ruta: `/item/:Id`
   - Descripción: Obtener un repuesto por su ID.
+
+## RESPONSE
+
+  -`404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos);
+
 
 - **Insertar Repuesto**
   - Método: `POST`
@@ -40,6 +64,15 @@ Esta es la documentación de la API que proporciona información sobre los repue
   - Método: `DELETE`
   - Ruta: `/item/:Id`
   - Descripción: Eliminar un repuesto por su ID.
+  
+  *Ejemplo:*
+  - Ruta: `/item/57`  (eliminara el registro con ID=57)
+
+  ## RESPONSE
+
+  -`200` : Ok  (si el repuesto fue eliminado con exito);
+  -`404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos);
+
 
 ### Categorías
 
