@@ -2,23 +2,6 @@
 
 class Helper{
 
-    //retorna true si el objeto que se recorre tiene campo vacio.
-    public function isEmptyObject($object=[]){
-        foreach($object as $data){
-            if(empty($data))
-            return true;
-        }
-        return false;
-    }
-
-    public function issetObject($object=[]){
-        foreach($object as $data){
-            if(!isset($data))
-            return true;
-        }
-        return false;
-    }
-
     public function isFilter($resource,$columns){
         if(isset($resource['filter'])){
             $filter=$resource['filter'];
@@ -64,12 +47,12 @@ class Helper{
         return false;
     }
 
-    public function isLimit(){
-        return false;
+    public function isLimit($resource){
+        return isset($resource['limit']) && is_numeric($resource['limit']);
     }
 
-    public function isOfset(){
-        return false;
+    public function isOffset($resource){
+        return isset($resource['offset']);      
     }
     
 }

@@ -27,7 +27,8 @@ class ItemApiController extends ApiController
         $sort=$this->helper->isSort($_GET,$columns);
         $order=$this->helper->isOrder($_GET);
         $limit=$this->helper->isLimit($_GET);
-        $ofset=$this->helper->isOfset($_GET);
+        $offset=$this->helper->isOffset($_GET);
+
 
         $options= [
             'filter'=>$filter?$_GET['filter']:null,
@@ -36,15 +37,17 @@ class ItemApiController extends ApiController
             'sort'=>$sort?$_GET['sort']:null,
             'order'=>$order?$_GET['order']:null,
             'limit'=>$limit?$_GET['limit']:null,
-            'ofset'=>$ofset?$_GET['ofset']:null
+            'offset'=>$offset?$_GET['offset']:null
         ];
-
-        $list = $this->model->getItemList($options);
-        if($list){
-        $this->view->response($list, 200);
-        }else
-            $this->view->response('Bad Request', 404);
-    
+        try{
+            $list = $this->model->getItemList($options);
+            if($list){
+            $this->view->response($list, 200);
+            }else
+                $this->view->response('Bad Request', 400);
+        }catch(PDOException){
+            $this->view->response('Bad Request', 400);
+        }
     }
 
     public function getItemById($params=[]){

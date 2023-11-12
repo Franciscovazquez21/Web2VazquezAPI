@@ -14,15 +14,22 @@ class ItemModel extends Model{
         if($options['value']!=null){
             if($options['operation']!=null)
             $query .= $options['operation'] . '"' . $options['value'] . '"';
-        else{   
+            else   
             $query.="=". '"' . $options['value'] . '"';
-        }
+            
         }
         if($options['sort']!=null){
             $query.=" ORDER BY ".$options['sort'];
         }
         if($options['sort']!=null&&$options['order']!=null){
             $query.= " ".$options['order'];
+        }
+        if ($options['limit'] != null) {
+            $query .= " LIMIT " . $options['limit'];
+            
+            if ($options['offset']!= null) {
+                $query .= " OFFSET " . $options['offset'];
+            }
         }
 
         return $query;
