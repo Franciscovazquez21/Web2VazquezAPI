@@ -106,7 +106,7 @@ class ItemApiController extends ApiController{
                 $this->view->response("El item no pudo ser ingresado", 404);
             }
         } catch (PDOException $e) { //si el id de la categoria no existe o es invalido capturo error.
-            $this->view->response("Error al intentar ingresar el registro-$e", 404);
+            $this->view->response("Error al intentar ingresar el registro", 404);
         }
     }
 
