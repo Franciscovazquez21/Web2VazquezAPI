@@ -3,9 +3,15 @@ require_once './app/models/model.php';
 //modelo de categorias
 class CategoryModel extends Model{
     
+    public function getColumns(){
+        $query = $this->db->prepare('DESCRIBE categoria');
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
     //consulta todas las categorias
-    public function getCategory(){
-        $query = $this->db->prepare('SELECT * FROM `categoria`');
+    public function getCategory($options){
+        $result=$this->buildQuery($options);
+        $query = $this->db->prepare("SELECT * FROM `categoria` $result");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);       
     }

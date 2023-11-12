@@ -4,10 +4,8 @@ require_once './libs/router.php';
 require_once './app/controllers/item.api.controller.php';
 require_once './app/controllers/category.api.controller.php';
 
-
-
 $router= new Router();
-
+//rutas disponibles para item y categoria (verbos: GET/POST/PUT/DELETE)
 $router->addRoute('item',         'GET',    'ItemApiController',     'getItemList'    );
 $router->addRoute('item/:Id',     'GET',    'ItemApiController',     'getItemById'    );
 $router->addRoute('item',         'POST',   'ItemApiController',     'insertItem'     );
@@ -15,6 +13,7 @@ $router->addRoute('item/:Id',     'PUT',    'ItemApiController',     'updateItem
 $router->addRoute('item/:Id',     'GET',    'ItemApiController',     'getItemList'    );
 $router->addRoute('item/:Id',     'DELETE', 'ItemApiController',     'deleteItem'     );
 $router->addRoute('category',     'GET',    'CategoryApiController', 'getCategoryList');
+$router->addRoute('category/:Id', 'GET',    'CategoryApiController', 'getCategoryId'  );
 $router->addRoute('category',     'POST',   'CategoryApiController', 'insertCategory' );
 $router->addRoute('category/:Id', 'PUT',    'CategoryApiController', 'updateCategory' );
 $router->addRoute('category/:Id', 'GET',    'CategoryApiController', 'getCategoryList');

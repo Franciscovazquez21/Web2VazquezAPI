@@ -3,37 +3,6 @@ require_once './app/models/model.php';
 
 //modelo de productos
 class ItemModel extends Model{
-
-    
-    public function buildQuery($options){
-        $query="SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria";
-        
-        if($options['filter']!=null){
-            $query.=" WHERE ".$options['filter']; 
-        }
-        if($options['value']!=null){
-            if($options['operation']!=null)
-            $query .= $options['operation'] . '"' . $options['value'] . '"';
-            else   
-            $query.="=". '"' . $options['value'] . '"';
-            
-        }
-        if($options['sort']!=null){
-            $query.=" ORDER BY ".$options['sort'];
-        }
-        if($options['sort']!=null&&$options['order']!=null){
-            $query.= " ".$options['order'];
-        }
-        if ($options['limit'] != null) {
-            $query .= " LIMIT " . $options['limit'];
-            
-            if ($options['offset']!= null) {
-                $query .= " OFFSET " . $options['offset'];
-            }
-        }
-
-        return $query;
-    }
     
 
     public function getColumns(){
@@ -44,7 +13,7 @@ class ItemModel extends Model{
     //consulta todos los productos
     public function getItemList($options){ 
         $result=$this->buildQuery($options);
-        $query = $this->db->prepare("$result");
+        $query = $this->db->prepare("SELECT repuestos.*, categoria.categoria FROM repuestos JOIN categoria ON repuestos.idCategoria = categoria.idCategoria $result");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }

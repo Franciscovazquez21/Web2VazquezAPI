@@ -12,6 +12,36 @@ abstract class Model
         $this->_deploy();
     }
 
+    public function buildQuery($options){
+      $query="";
+      
+      if($options['filter']!=null){
+          $query.=" WHERE ".$options['filter']; 
+      }
+      if($options['value']!=null){
+          if($options['operation']!=null)
+          $query .= $options['operation'] . '"' . $options['value'] . '"';
+          else   
+          $query.="=". '"' . $options['value'] . '"';
+          
+      }
+      if($options['sort']!=null){
+          $query.=" ORDER BY ".$options['sort'];
+      }
+      if($options['sort']!=null&&$options['order']!=null){
+          $query.= " ".$options['order'];
+      }
+      if ($options['limit'] != null) {
+          $query .= " LIMIT " . $options['limit'];
+          
+          if ($options['offset']!= null) {
+              $query .= " OFFSET " . $options['offset'];
+          }
+      }
+
+      return $query;
+  }
+
     private function _deploy(){
         $query = $this->db->query('SHOW TABLES');
         $tables = $query->fetchAll();

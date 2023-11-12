@@ -14,13 +14,40 @@ class CategoryApiController extends ApiController{
     }
 
     //consulta lista de categorias/categoriaId/recibe queryParams/filtro por campo.
-    public function getCategoryList($params = []){
+    public function getCategoryList(){
+        $columns=$this->model->getColumns();
+        $filter=$this->helper->isFilter($_GET,$columns);//llama a verify...(true/false)'repuestos.*';//por defecto filtra todos los campos
+        $value=$this->helper->isValue($_GET);
+        $operation=$this->helper->isOperation($_GET);
+        $sort=$this->helper->isSort($_GET,$columns);
+        $order=$this->helper->isOrder($_GET);
+        $limit=$this->helper->isLimit($_GET);
+        $offset=$this->helper->isOffset($_GET);
 
-        if (empty($params)) {
-            $categories = $this->model->getCategory();
+        $options= [
+            'filter'=>$filter?$_GET['filter']:null,
+            'value'=>$value?$_GET['value']:null,
+            'operation'=>$operation?$_GET['operation']:null,
+            'sort'=>$sort?$_GET['sort']:null,
+            'order'=>$order?$_GET['order']:null,
+            'limit'=>$limit?$_GET['limit']:null,
+            'offset'=>$offset?$_GET['offset']:null
+        ];
+        try{
+            $categories = $this->model->getCategory($options);
+            if($categories){
             $this->view->response($categories, 200);
-
-        } else if (isset($params[':Id']) && is_numeric($params[':Id'])) {
+            }else
+                $this->view->response('Bad Request', 400);
+        }catch(PDOException){
+            $this->view->response('Bad Request', 400);
+        }
+    }
+    public function getCategoryId($params=[]){
+        if (!isset($params[':Id']) && !is_numeric($params[':Id'])) {
+            $this->view->response('Error Not Found', 404);
+            return;
+        }
             $id = $params[":Id"];
             $category = $this->model->getCategoryId($id);
 
@@ -29,9 +56,6 @@ class CategoryApiController extends ApiController{
             } else {
                 $this->view->response('no existe categoria', 404);
             }
-        } else {
-            $this->view->response('Error Not Found', 404);
-        }
     }
 
     public function deleteCategory($params = [])
@@ -48,8 +72,8 @@ class CategoryApiController extends ApiController{
                 } else {
                     $this->view->response("la categoria no existe", 404);
                 }
-            } catch (PDOException $e) {
-                $this->view->response("no se puede eliminar categoria, tiene items asociados,$e", 400);
+            } catch (PDOException) {
+                $this->view->response("no se puede eliminar categoria, tiene items asociados", 400);
             }
         } else {
             $this->view->response("Error Not Found", 404);
