@@ -38,7 +38,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "categoria": "frenos"
     }
   ```
-  **RESPONSE**
+  - **RESPONSE**
 
   - `400` : Bad request  (por uso incorrecto de parametros y consultas sin resultados exitosos);
 
@@ -75,7 +75,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "IdCategoria": 5 
     }
   ```
-  **RESPONSE**
+  - **RESPONSE**
 
   - `404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta);
   - `201` : Created (item creado exitosamente);
@@ -101,7 +101,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "categoria": "frenos"
     }
   ```
-  **RESPONSE**
+  - **RESPONSE**
 
   - `200` : Ok (item modificado exitosamente)
   - `404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta)
@@ -181,7 +181,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "imagenCategoria": "imagen"
     }
   ```
-  **RESPONSE**
+  - **RESPONSE**
 
   - `404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta);
   - `201` : Created (item creado exitosamente);
@@ -204,7 +204,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "imagenCategoria": "imagen"
     }
   ```
-  **RESPONSE**
+  - **RESPONSE**
 
   - `200` : Ok (categoria modificada exitosamente);
   - `404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta);
