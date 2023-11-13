@@ -38,9 +38,9 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "categoria": "frenos"
     }
   ```
-- **RESPONSE**
+  **RESPONSE**
 
-  - `400` : Bad request  (por uso incorrecto de parametros y consultas sin resultados exitosos)
+  - `400` : Bad request  (por uso incorrecto de parametros y consultas sin resultados exitosos);
 
 
 - **Obtener Repuesto por ID**
@@ -53,7 +53,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
 
 - **RESPONSE**
 
-  - `404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos)
+  - `404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos);
 
 
 - **Insertar Repuesto**
@@ -77,8 +77,8 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   ```
   **RESPONSE**
 
-  - `404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta)
-  - `201` : Created (item creado exitosamente)
+  - `404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta);
+  - `201` : Created (item creado exitosamente);
 
 - **Actualizar Repuesto por ID**
   - Método: `PUT`
@@ -101,7 +101,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "categoria": "frenos"
     }
   ```
-- **RESPONSE**
+  **RESPONSE**
 
   - `200` : Ok (item modificado exitosamente)
   - `404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta)
@@ -114,7 +114,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   *Ejemplo:*
   - Ruta: `/item/57`  (eliminara el registro con ID=57)
 
-  - **RESPONSE**
+  **RESPONSE**
 
   - `200` : Ok  (si el repuesto fue eliminado con exito);
   - `404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos);
@@ -159,7 +159,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   - Ruta: `/category/:Id`
   - Descripción: Obtener una categoría por su ID.
   
-  - **RESPONSE**
+  **RESPONSE**
 
   - `404` : Error Not Found  (si no existe categoria por ID proporcionado o parametros incorrectos);
 
@@ -183,8 +183,8 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   ```
   **RESPONSE**
 
-  -`404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta)
-  -`201` : Created (item creado exitosamente)
+  - `404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta);
+  - `201` : Created (item creado exitosamente);
 
 
 - **Actualizar Categoría por ID**
@@ -204,10 +204,10 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "imagenCategoria": "imagen"
     }
   ```
-  - **RESPONSE**
+  **RESPONSE**
 
-  - `200` : Ok (categoria modificada exitosamente)
-  - `404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta)
+  - `200` : Ok (categoria modificada exitosamente);
+  - `404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta);
 
 - **Eliminar Categoría por ID**
   - Método: `DELETE`
