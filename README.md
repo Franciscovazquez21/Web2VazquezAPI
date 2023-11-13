@@ -35,7 +35,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "categoria": "frenos"
     }
   ```
-  ### RESPONSE
+  **RESPONSE**
 
   -`400` : Bad request  (por uso incorrecto de parametros y consultas sin resultados exitosos)
 
@@ -48,7 +48,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   *Ejemplo:*
   - Ruta: `/item/57`  (obtendra el registro con ID=57)
 
-  ### RESPONSE
+  **RESPONSE**
 
   -`404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos)
 
@@ -72,7 +72,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "IdCategoria": 5
     }
   ```
-  ### RESPONSE
+  **RESPONSE**
 
   -`404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta)
   -`201` : Created (item creado exitosamente)
@@ -98,7 +98,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "categoria": "frenos"
     }
   ```
-  ### RESPONSE
+  **RESPONSE**
 
   -`200` : Ok (item modificado exitosamente)
   -`404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta)
@@ -111,7 +111,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   *Ejemplo:*
   - Ruta: `/item/57`  (eliminara el registro con ID=57)
 
-  ### RESPONSE
+  **RESPONSE**
 
   -`200` : Ok  (si el repuesto fue eliminado con exito);
   -`404` : Error Not Found  (si no existe repuesto por ID proporcionado o parametros incorrectos);
@@ -146,7 +146,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "imagenCategoria": "img/interior.jpg"
     }
     ```
-  ### RESPONSE
+  **RESPONSE**
 
   -`400` : Bad request  (por uso incorrecto de parametros y consultas sin resultados exitosos);
 
@@ -156,7 +156,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   - Ruta: `/category/:Id`
   - Descripción: Obtener una categoría por su ID.
   
-   ### RESPONSE
+   **RESPONSE**
 
   -`404` : Error Not Found  (si no existe categoria por ID proporcionado o parametros incorrectos);
 
@@ -178,7 +178,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "imagenCategoria": "imagen"
     }
   ```
-  ### RESPONSE
+  **RESPONSE**
 
   -`404` : Error Not found (Campos incompletos, categoria invalida, excepcion en consulta)
   -`201` : Created (item creado exitosamente)
@@ -201,7 +201,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
         "imagenCategoria": "imagen"
     }
   ```
-  ### RESPONSE
+  **RESPONSE**
 
   -`200` : Ok (categoria modificada exitosamente)
   -`404` : Error Not found (Campos incompletos,no se puede moficar categoria invalida, excepcion en consulta)
@@ -214,7 +214,7 @@ Esta es la documentación de la API que proporciona información sobre las tabla
   *Ejemplo:*
   - Ruta: `/category/57`  (eliminara el registro con ID=57)
 
-  ### RESPONSE
+  **RESPONSE**
 
   -`200` : Ok  (si la categoria fue eliminada con exito);
   -`404` : Error Not Found  (si no existe categlria por ID proporcionado o parametros incorrectos);
